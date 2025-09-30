@@ -20,7 +20,8 @@ public class ParameterizedStackTest {
     static Iterable<Arguments> stackProviders() {
         return List.of(
                 Arguments.of("ArrayBoundedStack", (Supplier<StackInterface<Integer>>) () -> new ArrayBoundedStack<>(10)),
-                Arguments.of("ArraylistStack", (Supplier<StackInterface<Integer>>) ArrayListStack::new)
+                Arguments.of("ArraylistStack", (Supplier<StackInterface<Integer>>) ArrayListStack::new),
+                Arguments.of("LinkedStack", (Supplier<StackInterface<Integer>>) LinkedStack::new)
         );
     }
 
