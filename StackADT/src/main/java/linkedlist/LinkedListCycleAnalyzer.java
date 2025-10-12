@@ -1,20 +1,19 @@
 package linkedlist;
 
-import org.apache.commons.lang3.NotImplementedException;
 import support.CycleInfo;
 import support.LLNode;
 
 public class LinkedListCycleAnalyzer<T> {
     public static <T> CycleInfo detectCycleInfo(LLNode<T> head) {
 
-       LLNode <T> h = head;
-       LLNode<T> t = head.getLink();
+       LLNode <T> t = head;
+       LLNode<T> h = head.getLink();
         boolean noLoop = false;
 
-        while(h != t && !noLoop) {
+        while(t != h && !noLoop) {
           try {
-              h = h.getLink();
-              t = t.getLink().getLink();
+              t = t.getLink();
+              h = h.getLink().getLink();
           }catch(NullPointerException e) {
               noLoop = true;
           }
@@ -26,9 +25,9 @@ public class LinkedListCycleAnalyzer<T> {
 
         int i = 0;
         do{
-            h = h.getLink();
+            t = t.getLink();
             i++;
-        }while (h != t);
+        }while (t != h);
 
         int index = -1;
 
@@ -37,13 +36,13 @@ public class LinkedListCycleAnalyzer<T> {
                 head = head.getLink();
             }
 
-            h = head;
+            t = head;
 
             for (int j = 0; j < i; j++) {
-                h = h.getLink();
+                t = t.getLink();
             }
             index++;
-        } while(head != h);
+        } while(head != t);
 
         return new CycleInfo(index, i);
     }
