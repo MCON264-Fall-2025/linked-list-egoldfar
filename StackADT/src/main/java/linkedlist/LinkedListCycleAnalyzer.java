@@ -7,17 +7,18 @@ public class LinkedListCycleAnalyzer<T> {
     public static <T> CycleInfo detectCycleInfo(LLNode<T> head) {
 
        LLNode <T> t = head;
-       LLNode<T> h = head.getLink();
-        boolean noLoop = false;
+       LLNode<T> h = head;
+        LLNode <T> meetingPoint;
+        boolean noLoop = true;
 
-        while(t != h && !noLoop) {
-          try {
-              t = t.getLink();
-              h = h.getLink().getLink();
-          }catch(NullPointerException e) {
-              noLoop = true;
-          }
+        while (h != null && h.getLink() != null && noLoop) {
+            t = t.getLink();
+            h = h.getLink().getLink();
+            if (t == h) {
+                noLoop = false;
+            }
         }
+
 
         if(noLoop) {
             return new CycleInfo(-1, 0);
@@ -29,20 +30,14 @@ public class LinkedListCycleAnalyzer<T> {
             i++;
         }while (t != h);
 
-        int index = -1;
+        int index = 0;
+        meetingPoint = h;
 
-        do {
-            if (index != -1) {
-                head = head.getLink();
-            }
-
-            t = head;
-
-            for (int j = 0; j < i; j++) {
-                t = t.getLink();
-            }
+        while (head != meetingPoint) {
+            head = head.getLink();
+            meetingPoint = meetingPoint.getLink();
             index++;
-        } while(head != t);
+        }
 
         return new CycleInfo(index, i);
     }
